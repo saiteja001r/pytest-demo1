@@ -1,20 +1,19 @@
-name: Python Test Workflow
+name: Pytest with CI/CD Dummy Deployment
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  test:
+  build_and_test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-    
-      - name: set up Python
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -24,5 +23,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
 
-      - name: run tests with pytest
+      - name: Run Pytest
         run: pytest -v
+
+  deploy:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Dummy deployment - Build artifacts
+        run: echo "Building application package..."
+
+      - name: Dummy deployment - Uploading files
+        run: echo "Uploading files to fake server..."
+
+      - name: Dummy deployment - Finishing up
+        run: echo "Deployment complete! ✅"
