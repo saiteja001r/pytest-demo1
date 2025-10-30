@@ -15,3 +15,5 @@ def test_divide():
     with pytest.raises(ValueError):
         divide(5, 0)
 
+def test_fail():
+    assert add(2,2) == 5
